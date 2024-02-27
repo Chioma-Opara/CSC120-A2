@@ -7,22 +7,19 @@ class ResaleShop:
 
     # What attributes will it need?
     inventory: list # inventory is a list that keeps track of items in the store
-    inventory_count: int # keeps track of number of computers in Resale shop's inventory
 
     # Setting up the constructor
     def __init__(self):
         self.inventory = []
-        self.inventory_count = 0 
     
     # Methods in ResaleShop class
     # buying a computer (add to inventory)     
     """
-    Takes in a computer class, adds it to the inventory and returns the number of items in the inventory
+    Takes in a computer class, adds it to the inventory
     """
     def buy(self, computer: Computer):
         self.inventory.append(computer)
-        self.inventory_count += 1
-        return self.inventory_count
+
     
 
     # selling a computer (remove from inventory)
@@ -31,7 +28,7 @@ class ResaleShop:
     prints error message otherwise
     """
     def sell(self, item_id: int):
-        if item_id <= self.inventory_count:
+        if item_id <= len(self.inventory)  + 1: # I added '+1" here because len(self.inventory) counts from 0, but item_id counts from 1
             del self.inventory[item_id - 1] # I have '-1' here as the item_id counts from 1, but list index counts from 0
             print("Item", item_id, "sold!")
         else: 
@@ -43,7 +40,7 @@ class ResaleShop:
         Prints an error message otherwise
     """
     def refurbish(self, item_id: int, new_os: str):
-        if  item_id <= self.inventory_count:
+        if  item_id <= len(self.inventory) + 1: # I added '+1" here because len(self.inventory) counts from 0, but item_id counts from 1
             computer = self.inventory[item_id - 1] # locate the computer
             print(new_os)
             computer.update_os(new_os) # update details after installing new OS
@@ -57,5 +54,18 @@ class ResaleShop:
                 computer.update_price(1000) # recent stuff
         else:
             print("Item", item_id, "not found. Please select another item to refurbish.")
+
+    """
+        Prints the inventory of the ResaleShop
+    """
+    def printInventory(self):
+            # If the inventory is not empty
+        if self.inventory:
+            # For each item
+            for i in range(len(self.inventory)): 
+                # Print its details
+                print(f'Item ID: {i + 1} : {self.inventory[i]}')
+        else:
+            print("No inventory to display.")
 
 
